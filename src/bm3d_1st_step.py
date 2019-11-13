@@ -23,10 +23,12 @@ def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, ta
     weight_table = np.zeros((height, width))
 
     all_patches = image2patches(img_noisy, k=kHard, p=pHard)  # i_j_ipatch_jpatch__v
+
     if tau_2D == 'DCT':
         fre_all_patches = dct_2d_forward(all_patches)
     else:  # 'BIOR'
         fre_all_patches = bior_2d_forward(all_patches)
+
     fre_all_patches = fre_all_patches.reshape((height - kHard + 1, height - kHard + 1, kHard, kHard))
     acc_pointer = 0
     for i_r in row_ind:
@@ -49,16 +51,6 @@ def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, ta
     else:  # 'BIOR'
         group_3D_table = bior_2d_reverse(group_3D_table)
 
-    # group_3D_table = np.maximum(group_3D_table, 0)
-    # for i in range(1000):
-    #     patch = group_3D_table[i]
-    #     print(i, '----------------------------')
-    #     print(patch)
-    #     print(np.min(patch))
-    #     print(np.max(patch))
-    #     print(np.sum(patch))
-    #     cv2.imshow('', patch.astype(np.uint8))
-    #     cv2.waitKey()
     numerator = np.zeros_like(img_noisy, dtype=np.float64)
     denominator = np.zeros_like(img_noisy, dtype=np.float64)
     acc_pointer = 0

@@ -4,15 +4,14 @@ import math
 
 
 def mean_filtering(group_3d, sigma, lambdaHard3D, doWeight):
-    nSx_r = group_3d.shape[-1]
-    coef_norm = math.sqrt(nSx_r)
-    coef = 1.0 / nSx_r
+    # nSx_r = group_3d.shape[-1]
+    # coef_norm = math.sqrt(nSx_r)
+    # coef = 1.0 / nSx_r
 
     k = group_3d.shape[0]
     num = group_3d.shape[2]
     group_3d = np.mean(group_3d, axis=2)
     group_3D = np.repeat(group_3d, num, axis=1).reshape(k, k, num)
-    # group_3D *= coef
     weight = 1
 
     return group_3D, weight
