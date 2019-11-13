@@ -3,20 +3,6 @@ from scipy.linalg import hadamard
 import math
 
 
-def mean_filtering(group_3d, sigma, lambdaHard3D, doWeight):
-    # nSx_r = group_3d.shape[-1]
-    # coef_norm = math.sqrt(nSx_r)
-    # coef = 1.0 / nSx_r
-
-    k = group_3d.shape[0]
-    num = group_3d.shape[2]
-    group_3d = np.mean(group_3d, axis=2)
-    group_3D = np.repeat(group_3d, num, axis=1).reshape(k, k, num)
-    weight = 1
-
-    return group_3D, weight
-
-
 def ht_filtering_hadamard(group_3D, sigma, lambdaHard3D, doWeight):  # group_3D shape=(n*n, nSx_r)
     nSx_r = group_3D.shape[-1]
     coef_norm = math.sqrt(nSx_r)

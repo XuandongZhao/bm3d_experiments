@@ -14,7 +14,6 @@ def add_gaussian_noise(im, sigma, seed=None):
     im = im.astype(np.uint8)
     return im
 
-
 def ind_initialize(max_size, N, step):
     ind = range(N, max_size - N, step)
     if ind[-1] < max_size - N - 1:

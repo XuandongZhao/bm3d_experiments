@@ -27,6 +27,7 @@ if __name__ == '__main__':
     import cv2
     import numpy as np
 
+
     # <hyper parameter> -------------------------------------------------------------------------------
     n_H = 16
     k_H = 8
@@ -45,13 +46,10 @@ if __name__ == '__main__':
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
     im_dir = 'test_data/image'
-    # save_dir = 'result_compare_temp/python_mean'
-    save_dir = 'result_show/mean'
-    # for im_name in os.listdir(im_dir):
-    # for im_name in ['Alley.png', 'Baboon.png', 'Book.png', 'Lena.png', 'House.png']:
-    for im_name in ['Lena.png']:
+    save_dir = 'result_compare/python'
+    for im_name in os.listdir(im_dir):
+    # for im_name in ['Man.png',]:
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
-        # sigma_list = [10, 20]
         for sigma in sigma_list:
             print(im_name, '  ', sigma)
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
@@ -69,25 +67,11 @@ if __name__ == '__main__':
 
             psnr_1st = compute_psnr(im, im1)
             psnr_2nd = compute_psnr(im, im2)
-            dif_img = np.abs(im2 - im)
-            dif_img = np.clip(dif_img, 0, 255)
-            dif_img = dif_img.astype(np.uint8)
-            image_log = dif_img
-            # image_log = np.uint8(np.log(np.array(dif_img) + 1))
-            cv2.normalize(image_log, image_log, 0, 255, cv2.NORM_MINMAX)
 
-            im1 = np.clip(im1, 0, 255)
-            im2 = np.clip(im2, 0, 255)
-            im1 = im1.astype(np.uint8)
-            im2 = im2.astype(np.uint8)
+            im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
+            im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
             save_name = im_name[:-4] + '_s' + str(sigma) + '_py_1st_P' + '%.3f' % psnr_1st + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im1)
             save_name = im_name[:-4] + '_s' + str(sigma) + '_py_2nd_P' + '%.3f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
-            save_res_name = im_name[:-4] + '_s' + str(sigma) + '_py_dif.png'
-            cv2.imwrite(os.path.join(save_dir, save_res_name), dif_img)
-            save_res_name = im_name[:-4] + '_s' + str(sigma) + '_py_dif_nor.png'
-            cv2.imwrite(os.path.join(save_dir, save_res_name), image_log)
-
-    print('Finish')
