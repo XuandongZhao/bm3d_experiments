@@ -1,6 +1,6 @@
 from utils import add_gaussian_noise, symetrize
 from bm3d_1st_step import bm3d_1st_step
-from bm3d_2nd_step import bm3d_2nd_step
+from bm3d_BM_basic_noise_exchange.bm3d_2nd_step_BM_with_noisy_im import bm3d_2nd_step
 from psnr import compute_psnr
 
 
@@ -44,17 +44,17 @@ if __name__ == '__main__':
     tau_2D_W = 'DCT'
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
-    im_dir = '../test_data/image'
-    save_dir = '../RESULT_bm3d_standard'
-    for im_name in os.listdir(im_dir):
-        # for im_name in ['Man.png',]:
+    input_dir = '../test_data/image'
+    save_dir = 'result_images'
+    os.makedirs(save_dir, exist_ok=True)
+    for im_name in os.listdir(input_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
             noisy_dir = '../test_data/sigma' + str(sigma)
 
-            im_path = os.path.join(im_dir, im_name)
+            im_path = os.path.join(input_dir, im_name)
             im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
             noisy_im_path = os.path.join(noisy_dir, im_name)
             noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
@@ -69,8 +69,8 @@ if __name__ == '__main__':
             im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
-            save_name = im_name[:-4] + '-sigma_' + str(sigma) + '-1st' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
-            cv2.imwrite(os.path.join(save_dir, save_name), im1)
-            save_name = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
+            save_name = im_name[:-4] + '+sigma_' + str(
+                sigma) + '_BM-noisy' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
-            print(os.path.join(save_dir, save_name))
+            print(save_name)
+
