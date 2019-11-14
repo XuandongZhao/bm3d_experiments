@@ -71,9 +71,9 @@ if __name__ == '__main__':
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
             save_name = im_name[:-4] + '+sigma_' + str(
-                sigma) + '-1st_' + tau_2D_H + '-block_mean=PSNR_' + '%.4f' % psnr_1st + '.png'
+                sigma) + '-1st_' + tau_2D_H + '=PSNR_' + '%.4f' % psnr_1st + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im1)
             save_name = im_name[:-4] + '+sigma_' + str(
-                sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
+                sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W + '-block_mean=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
             print(save_name)
