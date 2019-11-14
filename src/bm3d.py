@@ -2,6 +2,7 @@ from utils import add_gaussian_noise, symetrize
 from bm3d_1st_step import bm3d_1st_step
 from bm3d_2nd_step import bm3d_2nd_step
 from psnr import compute_psnr
+from GEAR.res_name_dencode import find_filename_in_dir
 
 
 def run_bm3d(noisy_im, sigma,
@@ -50,6 +51,12 @@ if __name__ == '__main__':
         # for im_name in ['Man.png',]:
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
+            str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st'
+            str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd'
+            if find_filename_in_dir(save_dir, [str1]) is not None:
+                if find_filename_in_dir(save_dir, [str2]) is not None:
+                    continue
+
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
             noisy_dir = '../test_data/sigma' + str(sigma)

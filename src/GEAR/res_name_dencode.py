@@ -18,7 +18,7 @@ def name_hyper_2_str(name: str, hyper: dict):
 
 
 def find_filename_in_dir(search_dir, include_str_list, exclude_str_list=None):
-    assert os.path.isabs(search_dir)
+    # assert os.path.isabs(search_dir)
     if exclude_str_list is None:
         exclude_str_list = list()
     for file_name in os.listdir(search_dir):
