@@ -40,10 +40,7 @@ def bm3d_2nd_step(sigma, img_noisy, img_basic, nWien, kWien, NWien, pWien, tauMa
             nSx_r = threshold_count[i_r, j_r]
             group_3D_img = build_3D_group(fre_noisy_patches, ri_rj_N__ni_nj[i_r, j_r], nSx_r)
             group_3D_est = build_3D_group(fre_basic_patches, ri_rj_N__ni_nj[i_r, j_r], nSx_r)
-            if block_mean:
-                group_3D, weight = get_mean(group_3D_img)
-            else:
-                group_3D, weight = wiener_filtering_hadamard(group_3D_img, group_3D_est, sigma, not useSD)
+            group_3D, weight = wiener_filtering_hadamard(group_3D_img, group_3D_est, sigma, not useSD)
             group_3D = group_3D.transpose((2, 0, 1))
 
             group_3D_table[acc_pointer:acc_pointer + nSx_r] = group_3D

@@ -33,7 +33,7 @@ if __name__ == '__main__':
     from utils import add_gaussian_noise
 
     sigma = 40
-    im = cv2.imread('test_image/Cameraman.png', cv2.IMREAD_GRAYSCALE)
+    im = cv2.imread('../test_data/image/Cameraman.png', cv2.IMREAD_GRAYSCALE)
     noisy_im = add_gaussian_noise(im, sigma)
     # cv2.imshow('noisy_im', noisy_im)
 
