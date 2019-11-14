@@ -20,7 +20,7 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
     ri_rj_N__ni_nj, threshold_count = precompute_BM(img_BM, kHW=kHard, NHW=NHard, nHW=nHard, tauMatch=tauMatch)
     group_len = int(np.sum(threshold_count))
     group_3D_table = np.zeros((group_len, kHard, kHard))
-    weight_table = np.zeros((height, width))
+    weight_table = np.ones((height, width))
 
     all_patches = image2patches(img_noisy, k=kHard, p=pHard)  # i_j_ipatch_jpatch__v
     if tau_2D == 'DCT':
@@ -44,6 +44,8 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
 
             weight_table[i_r, j_r] = weight
 
+            print(np.min(weight_table))
+
     if tau_2D == 'DCT':
         group_3D_table = dct_2d_reverse(group_3D_table)
     else:  # 'BIOR'
@@ -61,7 +63,8 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
     #     cv2.waitKey()
 
     numerator = np.zeros_like(img_noisy, dtype=np.float64)
-    denominator = np.zeros_like(img_noisy, dtype=np.float64)
+    denominator = np.zeros((img_noisy.shape[0] - 2 * nHard, img_noisy.shape[1] - 2 * nHard), dtype=np.float64)
+    denominator = np.pad(denominator, nHard, 'constant', constant_values=1.)
     acc_pointer = 0
     for i_r in row_ind:
         for j_r in column_ind:

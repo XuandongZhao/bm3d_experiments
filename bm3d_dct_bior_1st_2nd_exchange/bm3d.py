@@ -54,7 +54,7 @@ if __name__ == '__main__':
     #         str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H
     #         str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W
     #         if find_filename_in_dir(save_dir, [str1]) is not None:
-    #             if find_filename_in_dir(save_dir, [str1]) is not None:
+    #             if find_filename_in_dir(save_dir, [str2]) is not None:
     #                 continue
     #
     #
@@ -109,6 +109,12 @@ if __name__ == '__main__':
     for im_name in os.listdir(input_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H
+            str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W
+            if find_filename_in_dir(save_dir, [str1]) is not None:
+                if find_filename_in_dir(save_dir, [str2]) is not None:
+                    continue
+
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
             noisy_dir = '../test_data/sigma' + str(sigma)
@@ -160,6 +166,12 @@ if __name__ == '__main__':
     for im_name in os.listdir(input_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H
+            str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W
+            if find_filename_in_dir(save_dir, [str1]) is not None:
+                if find_filename_in_dir(save_dir, [str2]) is not None:
+                    continue
+
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
             noisy_dir = '../test_data/sigma' + str(sigma)
@@ -211,6 +223,12 @@ if __name__ == '__main__':
     for im_name in os.listdir(input_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H
+            str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W
+            if find_filename_in_dir(save_dir, [str1]) is not None:
+                if find_filename_in_dir(save_dir, [str2]) is not None:
+                    continue
+
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
             noisy_dir = '../test_data/sigma' + str(sigma)
