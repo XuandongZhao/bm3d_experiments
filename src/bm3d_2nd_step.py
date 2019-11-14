@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-from utils import ind_initialize, get_kaiserWindow, sd_weighting, get_mean
+from utils import ind_initialize, get_kaiserWindow, sd_weighting
 from precompute_BM import precompute_BM
 from bior_2d import bior_2d_forward, bior_2d_reverse
 from dct_2d import dct_2d_forward, dct_2d_reverse
