@@ -1,5 +1,5 @@
 from utils import add_gaussian_noise, symetrize
-from bm3d_BM_with_denoising.bm3d_1st_step_BM_with_denoising import bm3d_1st_step
+from bm3d_1st_step_BM_use_denoised_image.bm3d_1st_step_BM_with_denoising import bm3d_1st_step
 from bm3d_2nd_step import bm3d_2nd_step
 from psnr import compute_psnr
 

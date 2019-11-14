@@ -1,6 +1,6 @@
 from utils import add_gaussian_noise, symetrize
 from bm3d_1st_step import bm3d_1st_step
-from bm3d_ht_wien_1st_2nd_exchange.bm3d_2nd_step_with_HT import bm3d_2nd_step
+from bm3d_2nd_step_BM_use_noisy_image.bm3d_2nd_step_BM_with_noisy_im import bm3d_2nd_step
 from psnr import compute_psnr
 from GEAR.res_name_dencode import find_filename_in_dir
 
@@ -17,8 +17,7 @@ def run_bm3d(noisy_im, sigma,
 
     img_basic_p = symetrize(img_basic, n_W)
     noisy_im_p = symetrize(noisy_im, n_W)
-    img_denoised = bm3d_2nd_step(sigma, noisy_im_p, img_basic_p, n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W,
-                                 lambda3D_H)
+    img_denoised = bm3d_2nd_step(sigma, noisy_im_p, img_basic_p, n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W)
     img_denoised = img_denoised[n_W: -n_W, n_W: -n_W]
 
     return img_basic, img_denoised
@@ -52,7 +51,7 @@ if __name__ == '__main__':
     for im_name in os.listdir(input_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
-            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '_HT-2nd'
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '_BM-noisy'
             if find_filename_in_dir(save_dir, [str1]) is not None:
                 continue
 
@@ -76,6 +75,6 @@ if __name__ == '__main__':
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
             save_name = im_name[:-4] + '+sigma_' + str(
-                sigma) + '_HT-2nd' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
+                sigma) + '_BM-noisy' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
             print(save_name)
