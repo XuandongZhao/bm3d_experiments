@@ -17,9 +17,8 @@ def gtf_admm_v2(y, D, k, lamda, rho, varargin):
         edges1 = np.zeros((m, 1))
         edges2 = np.zeros((m, 1))
 
-
-    if k==0:
-        print('Direct Solution:')
+    if k == 0:
+        print('Direct Solution')
 
 
 if __name__ == '__main__':

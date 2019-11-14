@@ -14,6 +14,7 @@ def add_gaussian_noise(im, sigma, seed=None):
     im = im.astype(np.uint8)
     return im
 
+
 def ind_initialize(max_size, N, step):
     ind = range(N, max_size - N, step)
     if ind[-1] < max_size - N - 1:
@@ -55,6 +56,16 @@ def sd_weighting(group_3D):
     res = (std - mean * mean / N) / (N - 1)
     weight = 1.0 / np.sqrt(res) if res > 0. else 0.
     return weight
+
+
+def get_mean(group_3d):
+    k = group_3d.shape[0]
+    num = group_3d.shape[2]
+    group_3d = np.mean(group_3d, axis=2)
+    group_3D = np.repeat(group_3d, num, axis=1).reshape(k, k, num)
+    weight = 1
+
+    return group_3D, weight
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 
-from utils import ind_initialize, get_kaiserWindow, sd_weighting
+from utils import ind_initialize, get_kaiserWindow, sd_weighting, get_mean
 from precompute_BM import precompute_BM
 from bior_2d import bior_2d_forward, bior_2d_reverse
 from dct_2d import dct_2d_forward, dct_2d_reverse
@@ -10,7 +10,8 @@ from build_3D_group import build_3D_group
 from ht_filtering_hadamard import ht_filtering_hadamard
 
 
-def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, tauMatch, useSD, tau_2D):
+def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, tauMatch, useSD, tau_2D,
+                  block_mean=False):
     height, width = img_noisy.shape[0], img_noisy.shape[1]
 
     row_ind = ind_initialize(height - kHard + 1, nHard, pHard)
@@ -34,7 +35,10 @@ def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, ta
         for j_r in column_ind:
             nSx_r = threshold_count[i_r, j_r]
             group_3D = build_3D_group(fre_all_patches, ri_rj_N__ni_nj[i_r, j_r], nSx_r)
-            group_3D, weight = ht_filtering_hadamard(group_3D, sigma, lambdaHard3D, not useSD)
+            if block_mean:
+                group_3D, weight = get_mean(group_3D)
+            else:
+                group_3D, weight = ht_filtering_hadamard(group_3D, sigma, lambdaHard3D, not useSD)
             group_3D = group_3D.transpose((2, 0, 1))
             group_3D_table[acc_pointer:acc_pointer + nSx_r] = group_3D
             acc_pointer += nSx_r
@@ -77,7 +81,7 @@ def bm3d_1st_step(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHard3D, ta
                 numerator[ni:ni + kHard, nj:nj + kHard] += patch * kaiserWindow * weight
                 denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
 
-    img_basic= numerator / denominator
+    img_basic = numerator / denominator
     return img_basic
 
 
