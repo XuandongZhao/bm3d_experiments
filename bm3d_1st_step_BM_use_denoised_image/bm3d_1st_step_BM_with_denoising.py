@@ -20,7 +20,7 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
     ri_rj_N__ni_nj, threshold_count = precompute_BM(img_BM, kHW=kHard, NHW=NHard, nHW=nHard, tauMatch=tauMatch)
     group_len = int(np.sum(threshold_count))
     group_3D_table = np.zeros((group_len, kHard, kHard))
-    weight_table = np.ones((height, width))
+    weight_table = np.zeros((height, width))
 
     all_patches = image2patches(img_noisy, k=kHard, p=pHard)  # i_j_ipatch_jpatch__v
     if tau_2D == 'DCT':
@@ -43,8 +43,6 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
                 weight = sd_weighting(group_3D)
 
             weight_table[i_r, j_r] = weight
-
-            print(np.min(weight_table))
 
     if tau_2D == 'DCT':
         group_3D_table = dct_2d_reverse(group_3D_table)
@@ -73,14 +71,23 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
             group_3D = group_3D_table[acc_pointer:acc_pointer + nSx_r]
             acc_pointer += nSx_r
             weight = weight_table[i_r, j_r]
+
             for n in range(nSx_r):
                 ni, nj = N_ni_nj[n]
+                if n == 0:
+                    assert i_r == ni and nj == j_r
+                    print(i_r, j_r, ni, nj)
                 patch = group_3D[n]
 
                 numerator[ni:ni + kHard, nj:nj + kHard] += patch * kaiserWindow * weight
                 denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
 
-    img_basic= numerator / denominator
+                # if i_r == 264 and 197 < j_r < 208:
+                #     print(ni, ni + kHard, nj, nj + kHard)
+                #     print(np.min(weight * kaiserWindow))
+                #     print(denominator[271, 206:208])
+
+    img_basic = numerator / denominator
     return img_basic
 
 
