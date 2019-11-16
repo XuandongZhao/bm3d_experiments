@@ -75,16 +75,16 @@ if __name__ == '__main__':
     ref_i, ref_j = 271, 206
 
     kHW = 8
-    NHW = 3
+    NHW = 16
     nHW = 16
     tauMatch = 2500
     # <hyper parameter \>
 
     im = cv2.imread('../test_data/image/Cameraman.png', cv2.IMREAD_GRAYSCALE)
-    im_noisy = add_gaussian_noise(im, 10, seed=1)
+    im_noisy = cv2.imread('../test_data/sigma40/Cameraman.png', cv2.IMREAD_GRAYSCALE)
 
     img_noisy_p = symetrize(im_noisy, nHW)
-    near_pij, threshold_count = precompute_BM(img_noisy_p, kHW=kHW, NHW=NHW, nHW=nHW, tauMatch=tauMatch)
+    ri_rj_N__ni_nj, threshold_count = precompute_BM(img_noisy_p, kHW=kHW, NHW=NHW, nHW=nHW, tauMatch=tauMatch)
 
     im = cv2.cvtColor(img_noisy_p, cv2.COLOR_GRAY2RGB)
     # <draw search area>
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     # <draw similar patches>
     count = threshold_count[ref_i, ref_j]
-    for i, Pnear in enumerate(near_pij[ref_i, ref_j]):
+    for i, Pnear in enumerate(ri_rj_N__ni_nj[ref_i, ref_j]):
         if i == 0:
             continue
         if i > count:
@@ -111,4 +111,4 @@ if __name__ == '__main__':
 
     # cv2.imshow('im', im)
     # cv2.waitKey()
-    cv2.imwrite('BM_real_im_test.png', im)
+    # cv2.imwrite('BM_real_im_test.png', im)

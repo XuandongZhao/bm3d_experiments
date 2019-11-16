@@ -49,17 +49,6 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
     else:  # 'BIOR'
         group_3D_table = bior_2d_reverse(group_3D_table)
 
-    # group_3D_table = np.maximum(group_3D_table, 0)
-    # for i in range(1000):
-    #     patch = group_3D_table[i]
-    #     print(i, '----------------------------')
-    #     print(patch)
-    #     print(np.min(patch))
-    #     print(np.max(patch))
-    #     print(np.sum(patch))
-    #     cv2.imshow('', patch.astype(np.uint8))
-    #     cv2.waitKey()
-
     numerator = np.zeros_like(img_noisy, dtype=np.float64)
     denominator = np.zeros((img_noisy.shape[0] - 2 * nHard, img_noisy.shape[1] - 2 * nHard), dtype=np.float64)
     denominator = np.pad(denominator, nHard, 'constant', constant_values=1.)
@@ -74,18 +63,10 @@ def bm3d_1st_step(sigma, img_BM, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
 
             for n in range(nSx_r):
                 ni, nj = N_ni_nj[n]
-                if n == 0:
-                    assert i_r == ni and nj == j_r
-                    print(i_r, j_r, ni, nj)
                 patch = group_3D[n]
 
                 numerator[ni:ni + kHard, nj:nj + kHard] += patch * kaiserWindow * weight
                 denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
-
-                # if i_r == 264 and 197 < j_r < 208:
-                #     print(ni, ni + kHard, nj, nj + kHard)
-                #     print(np.min(weight * kaiserWindow))
-                #     print(denominator[271, 206:208])
 
     img_basic = numerator / denominator
     return img_basic
