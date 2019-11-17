@@ -58,8 +58,8 @@ if __name__ == '__main__':
         # for im_name in ['Man.png',]:
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
-            str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st' + '-TVdenoising'
-            str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd' + '-TVdenoising'
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st' + '-TVdenoising'
+            str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-2nd' + '-TVdenoising'
             if find_filename_in_dir(save_dir, [str1]) is not None:
                 if find_filename_in_dir(save_dir, [str1]) is not None:
                     continue
@@ -85,10 +85,10 @@ if __name__ == '__main__':
             im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-1st' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im1)
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-2nd' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
             print(os.path.join(save_dir, save_name))
@@ -97,8 +97,8 @@ if __name__ == '__main__':
     for im_name in os.listdir(im_dir):
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
-            str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st' + '-NLMdenoising'
-            str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd' + '-NLMdenoising'
+            str1 = im_name[:-4] + '+sigma_' + str(sigma) + '-1st' + '-NLMdenoising'
+            str2 = im_name[:-4] + '+sigma_' + str(sigma) + '-2nd' + '-NLMdenoising'
             if find_filename_in_dir(save_dir, [str1]) is not None:
                 if find_filename_in_dir(save_dir, [str1]) is not None:
                     continue
@@ -124,10 +124,10 @@ if __name__ == '__main__':
             im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-1st' + '-NLMdenoising' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im1)
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-2nd' + '-NLMdenoising' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
             print(os.path.join(save_dir, save_name))
@@ -157,10 +157,10 @@ if __name__ == '__main__':
             im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
             im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
 
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-1st' + '-Wavelectdenoising' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im1)
-            save_name = im_name[:-4] + '-sigma_' + str(
+            save_name = im_name[:-4] + '+sigma_' + str(
                 sigma) + '-2nd' + '-Wavelectdenoising' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
             cv2.imwrite(os.path.join(save_dir, save_name), im2)
             print(os.path.join(save_dir, save_name))
