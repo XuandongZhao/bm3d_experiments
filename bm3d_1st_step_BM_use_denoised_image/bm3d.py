@@ -53,45 +53,45 @@ if __name__ == '__main__':
 
     im_dir = '../test_data/image'
     save_dir = 'result_image'
-    # os.makedirs(save_dir, exist_ok=True)
-    # for im_name in os.listdir(im_dir):
-    #     # for im_name in ['Man.png',]:
-    #     sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
-    #     for sigma in sigma_list:
-    #         str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st' + '-TVdenoising'
-    #         str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd' + '-TVdenoising'
-    #         if find_filename_in_dir(save_dir, [str1]) is not None:
-    #             if find_filename_in_dir(save_dir, [str1]) is not None:
-    #                 continue
-    #
-    #         tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
-    #         tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
-    #         noisy_dir = '../test_data/sigma' + str(sigma)
-    #
-    #         im_path = os.path.join(im_dir, im_name)
-    #         im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
-    #         noisy_im_path = os.path.join(noisy_dir, im_name)
-    #         noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
-    #
-    #         basic_denoising_im = tv_denoise(noisy_im, sigma)
-    #
-    #         im1, im2 = run_bm3d(basic_denoising_im, noisy_im, sigma,
-    #                             n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
-    #                             n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W)
-    #
-    #         psnr_1st = compute_psnr(im, im1)
-    #         psnr_2nd = compute_psnr(im, im2)
-    #
-    #         im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
-    #         im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
-    #
-    #         save_name = im_name[:-4] + '-sigma_' + str(
-    #             sigma) + '-1st' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
-    #         cv2.imwrite(os.path.join(save_dir, save_name), im1)
-    #         save_name = im_name[:-4] + '-sigma_' + str(
-    #             sigma) + '-2nd' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
-    #         cv2.imwrite(os.path.join(save_dir, save_name), im2)
-    #         print(os.path.join(save_dir, save_name))
+    os.makedirs(save_dir, exist_ok=True)
+    for im_name in os.listdir(im_dir):
+        # for im_name in ['Man.png',]:
+        sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
+        for sigma in sigma_list:
+            str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st' + '-TVdenoising'
+            str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd' + '-TVdenoising'
+            if find_filename_in_dir(save_dir, [str1]) is not None:
+                if find_filename_in_dir(save_dir, [str1]) is not None:
+                    continue
+
+            tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
+            tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
+            noisy_dir = '../test_data/sigma' + str(sigma)
+
+            im_path = os.path.join(im_dir, im_name)
+            im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
+            noisy_im_path = os.path.join(noisy_dir, im_name)
+            noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
+
+            basic_denoising_im = tv_denoise(noisy_im, sigma)
+
+            im1, im2 = run_bm3d(basic_denoising_im, noisy_im, sigma,
+                                n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
+                                n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W)
+
+            psnr_1st = compute_psnr(im, im1)
+            psnr_2nd = compute_psnr(im, im2)
+
+            im1 = (np.clip(im1, 0, 255)).astype(np.uint8)
+            im2 = (np.clip(im2, 0, 255)).astype(np.uint8)
+
+            save_name = im_name[:-4] + '-sigma_' + str(
+                sigma) + '-1st' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_1st + '.png'
+            cv2.imwrite(os.path.join(save_dir, save_name), im1)
+            save_name = im_name[:-4] + '-sigma_' + str(
+                sigma) + '-2nd' + '-TVdenoising' + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
+            cv2.imwrite(os.path.join(save_dir, save_name), im2)
+            print(os.path.join(save_dir, save_name))
 
     # NLM denoising
     for im_name in os.listdir(im_dir):
@@ -145,7 +145,7 @@ if __name__ == '__main__':
             noisy_im_path = os.path.join(noisy_dir, im_name)
             noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
 
-            basic_denoising_im = wavelet_denoise(noisy_im, sigma)
+            basic_denoising_im = wavelet_denoise(noisy_im)
 
             im1, im2 = run_bm3d(basic_denoising_im, noisy_im, sigma,
                                 n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
