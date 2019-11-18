@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
     im_dir = '../test_data/image'
-    save_dir = 'result_image'
+    save_dir = 'result_images'
     os.makedirs(save_dir, exist_ok=True)
     for im_name in os.listdir(im_dir):
         # for im_name in ['Man.png',]:
