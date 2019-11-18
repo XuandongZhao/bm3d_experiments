@@ -50,8 +50,10 @@ def bm3d_1st_step_with_TV(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
 
     if tau_2D == 'DCT':
         group_3D_table = dct_2d_reverse(group_3D_table)
-    else:  # 'BIOR'
+    elif tau_2D == 'BIOR':  # 'BIOR'
         group_3D_table = bior_2d_reverse(group_3D_table)
+    else:
+        group_3D_table *= kaiserWindow
 
     numerator = np.zeros_like(img_noisy, dtype=np.float64)
     denominator = np.zeros_like(img_noisy, dtype=np.float64)
@@ -66,9 +68,12 @@ def bm3d_1st_step_with_TV(sigma, img_noisy, nHard, kHard, NHard, pHard, lambdaHa
             for n in range(nSx_r):
                 ni, nj = N_ni_nj[n]
                 patch = group_3D[n]
-
-                numerator[ni:ni + kHard, nj:nj + kHard] += patch * kaiserWindow * weight
-                denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
+                if tau_2D == 'DCT' or tau_2D == 'BIOR':
+                    numerator[ni:ni + kHard, nj:nj + kHard] += patch * kaiserWindow * weight
+                    denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
+                elif tau_2D == 'TV':
+                    numerator[ni:ni + kHard, nj:nj + kHard] += patch * weight
+                    denominator[ni:ni + kHard, nj:nj + kHard] += kaiserWindow * weight
 
     img_basic = numerator / denominator
     return img_basic

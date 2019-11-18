@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # for im_name in ['Lena.png', 'Cameraman.png', 'Dice.png', 'Baboon.png']:
     for im_name in ['Lena.png']:
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
-
+        # sigma_list = [10, 20]
         for sigma in sigma_list:
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
@@ -63,7 +63,8 @@ if __name__ == '__main__':
             im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)
             noisy_im_path = os.path.join(noisy_dir, im_name)
             noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
-            for lamb in [1, 2, 3, 4, 10, 20, 30, 40, 50, 60, 70, 80, 100]:
+            # for lamb in [1, 2, 3, 4, 10, 20, 30, 40, 50, 60, 70, 80, 100]:
+            for lamb in [1, 6, 7, 8, 9, 10, 20, 30]:
                 im1, im2 = run_bm3d(noisy_im, sigma,
                                     n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
                                     n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W, lamb)
@@ -77,6 +78,7 @@ if __name__ == '__main__':
                 save_name = im_name[:-4] + '+sigma_' + str(
                     sigma) + '-1st_' + tau_2D_H + '-lambda_' + str(lamb) + '=PSNR_' + '%.4f' % psnr_1st + '.png'
                 cv2.imwrite(os.path.join(save_dir, save_name), im1)
+                print(save_name)
                 save_name = im_name[:-4] + '+sigma_' + str(
                     sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W + '-lambda_' + str(lamb) + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
                 cv2.imwrite(os.path.join(save_dir, save_name), im2)
