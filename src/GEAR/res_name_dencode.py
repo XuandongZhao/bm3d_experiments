@@ -22,22 +22,22 @@ def find_filename_in_dir(search_dir, include_str_list, exclude_str_list=None):
     if exclude_str_list is None:
         exclude_str_list = list()
     for file_name in os.listdir(search_dir):
-        if not is_include_strs(file_name, *include_str_list):
+        if not is_include_strs(file_name, include_str_list):
             continue
-        if not is_exclude_str(file_name, *exclude_str_list):
+        if not is_exclude_str(file_name, exclude_str_list):
             continue
         return file_name
 
 
-def is_include_strs(whole_str, *strs):
-    for st in strs:
+def is_include_strs(whole_str, str_list):
+    for st in str_list:
         if st not in whole_str:
             return False
     return True
 
 
-def is_exclude_str(whole_str, *strs):
-    for st in strs:
+def is_exclude_str(whole_str, str_list):
+    for st in str_list:
         if st in whole_str:
             return False
     return True

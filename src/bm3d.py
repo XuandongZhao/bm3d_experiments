@@ -28,6 +28,13 @@ if __name__ == '__main__':
     import cv2
     import numpy as np
 
+    im_name_list = ['Alley.png', 'Baboon.png', 'barbara.png', 'boat.png', 'Book.png', 'Building1.png', 'Building2.png',
+                    'Cameraman.png', 'Computer.png', 'couple.png', 'Dice.png', 'F16.png', 'fingerprint.png',
+                    'Flowers1.png', 'Flowers2.png', 'Gardens.png', 'Girl.png', 'Hallway.png', 'hill.png', 'house.png',
+                    'Lena.png', 'Man.png', 'Man1.png', 'Man2.png', 'montage.png', 'pentagon.png', 'peppers.png',
+                    'Plaza.png', 'Statue.png', 'Street1.png', 'Street2.png', 'Traffic.png', 'Trees.png',
+                    'Valldemossa.png', 'Yard.png']
+
     # <hyper parameter> -------------------------------------------------------------------------------
     n_H = 16
     k_H = 8
@@ -47,15 +54,16 @@ if __name__ == '__main__':
 
     im_dir = '../test_data/image'
     save_dir = '../RESULT_bm3d_standard'
-    for im_name in os.listdir(im_dir):
-        # for im_name in ['Man.png',]:
-        sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
+    # for im_name in os.listdir(im_dir):
+    for im_name in ['montage.png',]:
+        # sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
+        sigma_list = [2]
         for sigma in sigma_list:
-            str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st'
-            str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd'
-            if find_filename_in_dir(save_dir, [str1]) is not None:
-                if find_filename_in_dir(save_dir, [str2]) is not None:
-                    continue
+            # str1 = im_name[:-4] + '-sigma_' + str(sigma) + '-1st'
+            # str2 = im_name[:-4] + '-sigma_' + str(sigma) + '-2nd'
+            # if find_filename_in_dir(save_dir, [str1]) is not None:
+            #     if find_filename_in_dir(save_dir, [str2]) is not None:
+            #         continue
 
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
