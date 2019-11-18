@@ -1,6 +1,7 @@
 import os
 from plot_list_dict import plot_dict_res
 from GEAR.res_name_dencode import find_filename_in_dir, decode_res
+from get_standard_result import get_standard_result
 
 if __name__ == '__main__':
     im_name_list = ['Alley.png', 'Baboon.png', 'barbara.png', 'boat.png', 'Book.png', 'Building1.png', 'Building2.png',
@@ -17,91 +18,34 @@ if __name__ == '__main__':
     current_dir = os.path.dirname(os.path.abspath(__file__))
     search_dir = os.path.join(current_dir, input_dir)
 
-    # 1st step result compare
     for im_name in im_name_list:
-        DCT_1st_list = list()
-        BIOR_1st_list = list()
+        print(im_name)
 
+        standard_list = list()
+        bm_noisy_2nd_list = list()
         im_str = im_name[:-4]
-
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         for sigma in sigma_list:
-            sigma_str = 'sigma_' + str(sigma)
+            sigma_str = 'sigma_' + str(sigma) + '_'
 
-            name = find_filename_in_dir(search_dir,
-                                        include_str_list=(im_str, sigma_str, '1st_DCT'),
-                                        exclude_str_list=('2nd'))
-            psnr = decode_res(name)['PSNR']
-            DCT_1st_list.append(psnr)
+            psnr1st, psnr2nd = get_standard_result(im_name, sigma)
+            standard_list.append(psnr2nd)
 
-            name = find_filename_in_dir(search_dir,
-                                        include_str_list=(im_str, sigma_str, '1st_BIOR'),
-                                        exclude_str_list=('2nd'))
+            name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'BM-noisy'])
             psnr = decode_res(name)['PSNR']
-            BIOR_1st_list.append(psnr)
+            bm_noisy_2nd_list.append(psnr)
 
         x_list = sigma_list
-        y_list = DCT_1st_list
+        y_list = standard_list
         k_ = ['name', 'x', 'y', 'color', 'linestyle']
-        v_ = ['BIOR_1st', x_list, y_list, 'green', '--']
+        v_ = ['standard', x_list, y_list, 'green', '--']
         line_dict_1 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = DCT_1st_list
-        v_ = ['DCT_1st', x_list, y_list, 'red', '--']
+        y_list = bm_noisy_2nd_list
+        v_ = ['2nd_use_noisy_BM', x_list, y_list, 'red', '--']
         line_dict_2 = dict(zip(k_, v_))
 
         plt = plot_dict_res(line_dict_1, line_dict_2, x_lable='sigma', y_label='PSNR', im_label=im_name)
-
-    # 2nd step result compare
-    for im_name in im_name_list:
-        BIOR_1st_BIOR_2nd_list = list()
-        BIOR_1st_DCT_2nd_list = list()
-        DCT_1st_DCT_2nd_list = list()
-        DCT_1st_BIOR_2nd_list = list()
-
-        im_str = im_name[:-4]
-
-        sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
-        for sigma in sigma_list:
-            sigma_str = 'sigma_' + str(sigma)
-
-            name = find_filename_in_dir(search_dir, include_str_list=(im_str, sigma_str, '1st_BIOR', '2nd_BIOR'))
-            psnr = decode_res(name)['PSNR']
-            BIOR_1st_BIOR_2nd_list.append(psnr)
-
-            name = find_filename_in_dir(search_dir, include_str_list=(im_str, sigma_str, '1st_BIOR', '2nd_DCT'))
-            psnr = decode_res(name)['PSNR']
-            BIOR_1st_DCT_2nd_list.append(psnr)
-
-            name = find_filename_in_dir(search_dir, include_str_list=(im_str, sigma_str, '1st_DCT', '2nd_DCT'))
-            psnr = decode_res(name)['PSNR']
-            DCT_1st_DCT_2nd_list.append(psnr)
-
-            name = find_filename_in_dir(search_dir, include_str_list=(im_str, sigma_str, '1st_DCT', '2nd_BIOR'))
-            psnr = decode_res(name)['PSNR']
-            DCT_1st_BIOR_2nd_list.append(psnr)
-
-        x_list = sigma_list
-        y_list = BIOR_1st_BIOR_2nd_list
-        k_ = ['name', 'x', 'y', 'color', 'linestyle']
-        v_ = ['BIOR_1st_BIOR_2nd', x_list, y_list, 'yellow', '--']
-        line_dict_1 = dict(zip(k_, v_))
-
-        x_list = sigma_list
-        y_list = BIOR_1st_DCT_2nd_list
-        v_ = ['BIOR_1st_DCT_2nd', x_list, y_list, 'green', '--']
-        line_dict_2 = dict(zip(k_, v_))
-
-        x_list = sigma_list
-        y_list = DCT_1st_DCT_2nd_list
-        v_ = ['DCT_1st_DCT_2nd', x_list, y_list, 'blue', '--']
-        line_dict_3 = dict(zip(k_, v_))
-
-        x_list = sigma_list
-        y_list = DCT_1st_BIOR_2nd_list
-        v_ = ['DCT_1st_BIOR_2nd', x_list, y_list, 'red', '--']
-        line_dict_4 = dict(zip(k_, v_))
-
-        plt = plot_dict_res(line_dict_1, line_dict_2, line_dict_3, line_dict_4, x_lable='sigma', y_label='PSNR',
-                            im_label=im_name)
+        plt.savefig(os.path.join(save_dir, im_name[:-4] + '.png'))
+        plt.close()

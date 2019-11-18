@@ -90,7 +90,7 @@ if __name__ == '__main__':
         k_ = ['name', 'x', 'y', 'color', 'linestyle']
         x_list = sigma_list
         y_list = BIOR_1st_BIOR_2nd_list
-        v_ = ['BIOR_1st_BIOR_2nd', x_list, y_list, 'yellow', '--']
+        v_ = ['BIOR_1st_BIOR_2nd', x_list, y_list, 'gold', '--']
         line_dict_1 = dict(zip(k_, v_))
 
         x_list = sigma_list
