@@ -23,9 +23,9 @@ if __name__ == '__main__':
         print(im_name)
 
         standard_list = list()
-        NLMdenoising_1st_list = list()
-        TVdenoising_1st_list = list()
-        Waveletdenoising_1st_list = list()
+        NLMdenoising_2nd_list = list()
+        TVdenoising_2nd_list = list()
+        Waveletdenoising_2nd_list = list()
 
         im_str = im_name[:-4]
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
@@ -37,15 +37,15 @@ if __name__ == '__main__':
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'NLMdenoising', '1st'])
             psnr = decode_res(name)['PSNR']
-            NLMdenoising_1st_list.append(psnr)
+            NLMdenoising_2nd_list.append(psnr)
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'TVdenoising', '1st'])
             psnr = decode_res(name)['PSNR']
-            TVdenoising_1st_list.append(psnr)
+            TVdenoising_2nd_list.append(psnr)
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'Wavelectdenoising', '1st'])
             psnr = decode_res(name)['PSNR']
-            Waveletdenoising_1st_list.append(psnr)
+            Waveletdenoising_2nd_list.append(psnr)
 
         x_list = sigma_list
         y_list = standard_list
@@ -54,17 +54,17 @@ if __name__ == '__main__':
         line_dict_1 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = NLMdenoising_2nd_list
         v_ = ['NLM', x_list, y_list, 'red', '--']
         line_dict_2 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = TVdenoising_2nd_list
         v_ = ['TV', x_list, y_list, 'gold', '--']
         line_dict_3 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = Waveletdenoising_2nd_list
         v_ = ['Wavelet', x_list, y_list, 'blue', '--']
         line_dict_4 = dict(zip(k_, v_))
 
@@ -79,9 +79,9 @@ if __name__ == '__main__':
         print(im_name)
 
         standard_list = list()
-        NLMdenoising_1st_list = list()
-        TVdenoising_1st_list = list()
-        Waveletdenoising_1st_list = list()
+        NLMdenoising_2nd_list = list()
+        TVdenoising_2nd_list = list()
+        Waveletdenoising_2nd_list = list()
 
         im_str = im_name[:-4]
         sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
@@ -93,15 +93,15 @@ if __name__ == '__main__':
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'NLMdenoising', '2nd'])
             psnr = decode_res(name)['PSNR']
-            NLMdenoising_1st_list.append(psnr)
+            NLMdenoising_2nd_list.append(psnr)
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'TVdenoising', '2nd'])
             psnr = decode_res(name)['PSNR']
-            TVdenoising_1st_list.append(psnr)
+            TVdenoising_2nd_list.append(psnr)
 
             name = find_filename_in_dir(search_dir, include_str_list=[im_str, sigma_str, 'Wavelectdenoising', '2nd'])
             psnr = decode_res(name)['PSNR']
-            Waveletdenoising_1st_list.append(psnr)
+            Waveletdenoising_2nd_list.append(psnr)
 
         x_list = sigma_list
         y_list = standard_list
@@ -110,17 +110,17 @@ if __name__ == '__main__':
         line_dict_1 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = NLMdenoising_2nd_list
         v_ = ['NLM', x_list, y_list, 'red', '--']
         line_dict_2 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = TVdenoising_2nd_list
         v_ = ['TV', x_list, y_list, 'gold', '--']
         line_dict_3 = dict(zip(k_, v_))
 
         x_list = sigma_list
-        y_list = NLMdenoising_1st_list
+        y_list = Waveletdenoising_2nd_list
         v_ = ['Wavelet', x_list, y_list, 'blue', '--']
         line_dict_4 = dict(zip(k_, v_))
 
