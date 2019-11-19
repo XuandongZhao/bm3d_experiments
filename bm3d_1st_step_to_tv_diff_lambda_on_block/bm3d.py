@@ -66,7 +66,8 @@ if __name__ == '__main__':
             noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
             # for lamb in [1, 2, 3, 4, 10, 20, 30, 40, 50, 60, 70, 80, 100]:
             # for lamb in [7.2, 7.5, 7.7, 8, 8.2, 8.5, 8.7]:
-            for lamb in [4, 5, 6, 7, 8, 8.3, 8.4, 9, 10, 12, 20]:
+            # for lamb in [4, 5, 6, 7, 8, 8.3, 8.4, 9, 10, 12, 20]:
+            for lamb in [8.1, 8.2]:
                 im1, im2 = run_bm3d(noisy_im, sigma,
                                     n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
                                     n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W, (8.2, 8.2, lamb))
