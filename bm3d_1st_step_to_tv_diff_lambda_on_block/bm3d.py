@@ -35,7 +35,7 @@ if __name__ == '__main__':
     N_H = 16
     p_H = 3
     lambda3D_H = 2.7  # ! Threshold for Hard Thresholding
-    useSD_H = True
+    useSD_H = False
     tau_2D_H = 'TV'
 
     n_W = 16
@@ -47,13 +47,14 @@ if __name__ == '__main__':
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
     input_dir = '../test_data/image'
-    save_dir = 'result_images'
+    save_dir = 'result_images_new'
     os.makedirs(save_dir, exist_ok=True)
     # for im_name in os.listdir(input_dir):
     # for im_name in ['Lena.png', 'Cameraman.png', 'Dice.png', 'Baboon.png']:
     for im_name in ['Lena.png']:
-        sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
+        # sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         # sigma_list = [10, 20]
+        sigma_list = [20]
         for sigma in sigma_list:
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
@@ -64,10 +65,12 @@ if __name__ == '__main__':
             noisy_im_path = os.path.join(noisy_dir, im_name)
             noisy_im = cv2.imread(noisy_im_path, cv2.IMREAD_GRAYSCALE)
             # for lamb in [1, 2, 3, 4, 10, 20, 30, 40, 50, 60, 70, 80, 100]:
-            for lamb in [1, 6, 7, 8, 9, 10, 20, 30]:
+            # for lamb in [7.2, 7.5, 7.7, 8, 8.2, 8.5, 8.7]:
+            # for lamb in [4, 5, 6, 7, 8, 8.3, 8.4, 9, 10, 12, 20]:
+            for lamb in [8.1, 8.2]:
                 im1, im2 = run_bm3d(noisy_im, sigma,
                                     n_H, k_H, N_H, p_H, tauMatch_H, useSD_H, tau_2D_H, lambda3D_H,
-                                    n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W, lamb)
+                                    n_W, k_W, N_W, p_W, tauMatch_W, useSD_W, tau_2D_W, (8.2, 8.2, lamb))
 
                 psnr_1st = compute_psnr(im, im1)
                 psnr_2nd = compute_psnr(im, im2)
@@ -80,6 +83,7 @@ if __name__ == '__main__':
                 cv2.imwrite(os.path.join(save_dir, save_name), im1)
                 print(save_name)
                 save_name = im_name[:-4] + '+sigma_' + str(
-                    sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W + '-lambda_' + str(lamb) + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
+                    sigma) + '-1st_' + tau_2D_H + '-2nd_' + tau_2D_W + '-lambda_' + str(
+                    lamb) + '=PSNR_' + '%.4f' % psnr_2nd + '.png'
                 cv2.imwrite(os.path.join(save_dir, save_name), im2)
                 print(save_name)
