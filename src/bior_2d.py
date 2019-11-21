@@ -41,7 +41,7 @@ def bior_2d_reverse(bior_img):
 if __name__ == '__main__':
     import cv2
 
-    img = cv2.imread('Cameraman256.png', cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread('../test_data/image/Alley.png', cv2.IMREAD_GRAYSCALE)
     bior_img = bior_2d_forward(img)
 
     img_ = bior_2d_reverse(bior_img)
