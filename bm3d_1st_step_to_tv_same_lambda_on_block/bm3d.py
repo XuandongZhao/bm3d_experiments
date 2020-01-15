@@ -35,7 +35,7 @@ if __name__ == '__main__':
     N_H = 16
     p_H = 3
     lambda3D_H = 2.7  # ! Threshold for Hard Thresholding
-    useSD_H = False
+    useSD_H = True
     tau_2D_H = 'TV'
 
     n_W = 16
@@ -46,19 +46,19 @@ if __name__ == '__main__':
     tau_2D_W = 'DCT'
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
-    input_dir = '../test_data/image'
+    input_dir = '../test_data/size128_image'
     save_dir = 'result_images_new'
     os.makedirs(save_dir, exist_ok=True)
     # for im_name in os.listdir(input_dir):
     # for im_name in ['Lena.png', 'Cameraman.png', 'Dice.png', 'Baboon.png']:
-    for im_name in ['Lena.png']:
+    for im_name in ['peppers.png']:
         # sigma_list = [2, 5, 10, 20, 30, 40, 60, 80, 100]
         # sigma_list = [10, 20]
         sigma_list = [20]
         for sigma in sigma_list:
             tauMatch_H = 2500 if sigma < 35 else 5000  # ! threshold determinates similarity between patches
             tauMatch_W = 400 if sigma < 35 else 3500  # ! threshold determinates similarity between patches
-            noisy_dir = '../test_data/sigma' + str(sigma)
+            noisy_dir = '../test_data/size128_sigma' + str(sigma)
 
             im_path = os.path.join(input_dir, im_name)
             im = cv2.imread(im_path, cv2.IMREAD_GRAYSCALE)

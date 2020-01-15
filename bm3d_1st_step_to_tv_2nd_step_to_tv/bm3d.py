@@ -35,7 +35,7 @@ if __name__ == '__main__':
     N_H = 16
     p_H = 3
     lambda3D_H = 2.7  # ! Threshold for Hard Thresholding
-    useSD_H = False
+    useSD_H = True
     tau_2D_H = 'TV'
 
     n_W = 16
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # <\ hyper parameter> -----------------------------------------------------------------------------
 
     input_dir = '../test_data/image'
-    save_dir = 'result_images_new'
+    save_dir = 'result_images_useSD_true'
     os.makedirs(save_dir, exist_ok=True)
     # for im_name in os.listdir(input_dir):
     # for im_name in ['Lena.png', 'Cameraman.png', 'Dice.png', 'Baboon.png']:
